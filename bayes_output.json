@@ -1,0 +1,121 @@
+{
+  "predicted_categories": [
+    "Skincare",
+    "Hair"
+  ],
+  "selected_product": "Rose Lip Conditioner",
+  "cf_recommendations": {
+    "1": [
+      {
+        "Product Name": "K.I.S.S.I.N.G Lipstick - Pillow Talk Collection",
+        "Price": "$35.00",
+        "Rating": "4.2",
+        "Loves": "15,120",
+        "Primary Category": "Makeup",
+        "Subcategory": "Lip",
+        "Similarity": 0.9982
+      }
+    ],
+    "2": [
+      {
+        "Product Name": "Luxe Matte Lipstick",
+        "Price": "$38.00",
+        "Rating": "4.3",
+        "Loves": "24,078",
+        "Primary Category": "Makeup",
+        "Subcategory": "Lip",
+        "Similarity": 0.9981
+      }
+    ],
+    "3": [
+      {
+        "Product Name": "Rouge Essentiel Silky Cream Lipstick",
+        "Price": "$38.00",
+        "Rating": "4.2",
+        "Loves": "28,260",
+        "Primary Category": "Makeup",
+        "Subcategory": "Lip",
+        "Similarity": 0.997
+      }
+    ],
+    "4": [
+      {
+        "Product Name": "Transfer-proof Matte Liquid lipstick",
+        "Price": "$45.00",
+        "Rating": "4.3",
+        "Loves": "19,581",
+        "Primary Category": "Makeup",
+        "Subcategory": "Lip",
+        "Similarity": 0.9966
+      }
+    ],
+    "5": [
+      {
+        "Product Name": "Rouge Interdit Vinyl Color Enhancing Lipstick - 16 Noir Revelateur",
+        "Price": "$34.00",
+        "Rating": "4.3",
+        "Loves": "     0",
+        "Primary Category": "Makeup",
+        "Subcategory": "Lip",
+        "Similarity": 0.9966
+      }
+    ]
+  },
+  "bayesian_cf_recommendations": {
+    "1": [
+      {
+        "Product Name": "RESIST Super-Light Daily Wrinkle Defense SPF 30",
+        "Price": "$37.00",
+        "Rating": "4.3",
+        "Loves": "19,795",
+        "Primary Category": "Skincare",
+        "Subcategory": "Sunscreen",
+        "Similarity": 0.999
+      }
+    ],
+    "2": [
+      {
+        "Product Name": "Plus Size Volume & Body Mousse",
+        "Price": "$30.00",
+        "Rating": "4.3",
+        "Loves": "20,091",
+        "Primary Category": "Hair",
+        "Subcategory": "Hair Styling & Treatments",
+        "Similarity": 0.9987
+      }
+    ],
+    "3": [
+      {
+        "Product Name": "Hydro UV Defense Sunscreen Broad Spectrum SPF 50+",
+        "Price": "$30.00",
+        "Rating": "4.3",
+        "Loves": "19,738",
+        "Primary Category": "Skincare",
+        "Subcategory": "Sunscreen",
+        "Similarity": 0.9986
+      }
+    ],
+    "4": [
+      {
+        "Product Name": "CAVIAR Anti-Aging Multiplying Volume Styling Mist",
+        "Price": "$30.00",
+        "Rating": "4.3",
+        "Loves": "18,120",
+        "Primary Category": "Hair",
+        "Subcategory": "Hair Styling & Treatments",
+        "Similarity": 0.9976
+      }
+    ],
+    "5": [
+      {
+        "Product Name": "Self Tan Classic Bronzing Mousse",
+        "Price": "$34.00",
+        "Rating": "4.3",
+        "Loves": "28,627",
+        "Primary Category": "Skincare",
+        "Subcategory": "Self Tanners",
+        "Similarity": 0.9975
+      }
+    ]
+  }
+}
