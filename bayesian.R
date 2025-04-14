@@ -4,8 +4,8 @@ library(ggplot2)
 library(reshape2)
 
 # 1. Data Preparation
-df <- read_csv("product_info.csv")
-df <- df[, c("product_name", "price_usd", "rating", "loves_count", "primary_category", "secondary_category")]
+df <- read_csv("/Users/chachaen/Desktop/DS4420/groupwork/product_info.csv")
+df <- df[, c("product_name", "price_usd", "rating", "loves_count", "primary_category", "secondary_category", "online_only")]
 df <- na.omit(df)
 
 # 2. Feature Engineering
@@ -25,14 +25,117 @@ df$loves_level <- cut(df$loves_count, breaks = c(0, 1000, 5000, 10000, Inf),
                       include.lowest = TRUE)
 df$loves_level <- factor(df$loves_level, levels = c("Few", "Medium", "Popular", "Hot"))
 
+df$online_only <- as.factor(df$online_only)
+online_levels <- levels(df$online_only)
+
 # 3. Load Existing Model
-# Load the pre-trained model instead of training a new one
-fit <- readRDS("brms_model_final.rds")
-cat("✅ Model loaded successfully\n")
+fit <- readRDS("/Users/chachaen/Desktop/DS4420/groupwork/brms_model_final.rds")
+cat("✅Model loaded successfully\n")
 
-# 4. Generate Visualizations
+# 4. Interactive Prediction Section
+cat("\n Let's predict categories based on your preferences!\n")
 
-# 4.1 Feature Distribution Plots
+# Get Price Level
+while(TRUE) {
+  cat("\nPrice Level options: Low, Medium, High, Luxury")
+  cat("\nEnter Price Level: ")
+  price_input <- readline()
+  if(price_input %in% c("Low", "Medium", "High", "Luxury")) {
+    break
+  }
+  cat("❌ Invalid input! Please try again.\n")
+}
+
+# Get Rating Level
+while(TRUE) {
+  cat("\nRating Level options: Low, Medium, High")
+  cat("\nEnter Rating Level: ")
+  rating_input <- readline()
+  if(rating_input %in% c("Low", "Medium", "High")) {
+    break
+  }
+  cat("❌ Invalid input! Please try again.\n")
+}
+
+# Get Loves Level
+while(TRUE) {
+  cat("\nLoves Level options: Few, Medium, Popular, Hot")
+  cat("\nEnter Loves Level: ")
+  loves_input <- readline()
+  if(loves_input %in% c("Few", "Medium", "Popular", "Hot")) {
+    break
+  }
+  cat("❌ Invalid input! Please try again.\n")
+}
+
+# Create user profile
+new_user <- data.frame(
+  price_level = factor(price_input, levels = levels(df$price_level)),
+  rating_level = factor(rating_input, levels = levels(df$rating_level)),
+  loves_level = factor(loves_input, levels = levels(df$loves_level)),
+  online_only = factor("0", levels = online_levels)
+)
+
+# Generate predictions
+bayes_probs <- fitted(fit, newdata = new_user, summary = FALSE)
+posterior_means <- colMeans(bayes_probs)
+
+# Create prediction dataframe
+my_real_names <- c("Bath & Body", "Fragrance", "Hair", "Makeup",
+                   "Men", "Mini Size", "Skincare", "Tools & Brushes")
+posterior_df <- data.frame(
+  category = my_real_names,
+  prob = as.numeric(posterior_means)
+)
+
+# Filter and sort probabilities
+posterior_df <- posterior_df[posterior_df$prob > 0, ]
+posterior_df <- posterior_df[order(-posterior_df$prob), ]
+top2 <- head(posterior_df$category, 2)
+
+# Display results
+cat("\n📊 Based on your preferences:\n")
+cat("Price Level:", price_input, "\n")
+cat("Rating Level:", rating_input, "\n")
+cat("Loves Level:", loves_input, "\n")
+
+cat("\n🎯 Top 2 Recommended Categories:\n")
+cat("1.", top2[1], "\n")
+cat("2.", top2[2], "\n")
+
+# Generate prediction probability plot
+p5 <- ggplot(posterior_df, aes(x = reorder(category, -prob), y = prob)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme_minimal() +
+  labs(title = "Posterior Probability of Each Category",
+       x = "Category", 
+       y = "Predicted Probability") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Save prediction plot
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_prediction_probabilities.png", p5, width = 12, height = 6)
+cat("\n✅ Prediction plot saved as Bayesian_prediction_probabilities.png\n")
+
+# Create user preferences visualization
+user_prefs <- data.frame(
+  Feature = c("Price", "Rating", "Loves"),
+  Level = c(price_input, rating_input, loves_input)
+)
+
+p6 <- ggplot(user_prefs, aes(x = Feature, y = 1, fill = Level)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Level), size = 6) +
+  labs(title = "Your Preferences", x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(), 
+        axis.ticks = element_blank(), 
+        panel.grid = element_blank())
+
+# Save user preferences plot
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_user_preferences.png", p6, width = 8, height = 4)
+cat("✅ User preferences plot saved as Bayesian_user_preferences.png\n")
+
+# Generate distribution plots
 # Price Distribution
 p1 <- ggplot(df, aes(x = price_level)) +
   geom_bar(fill = "steelblue") +
@@ -52,41 +155,17 @@ p3 <- ggplot(df, aes(x = loves_level)) +
   theme_minimal()
 
 # Save Feature Distribution Plots
-ggsave("Bayesian_price_distribution.png", p1, width = 8, height = 6)
-ggsave("Bayesian_rating_distribution.png", p2, width = 8, height = 6)
-ggsave("Bayesian_loves_distribution.png", p3, width = 8, height = 6)
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_price_distribution.png", p1, width = 8, height = 6)
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_rating_distribution.png", p2, width = 8, height = 6)
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_loves_distribution.png", p3, width = 8, height = 6)
 
-# 4.2 Category Distribution
+# Category Distribution
 p4 <- ggplot(df, aes(x = primary_category)) +
   geom_bar(fill = "orange") +
   labs(title = "Primary Category Distribution", x = "Category", y = "Count") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-ggsave("Bayesian_category_distribution.png", p4, width = 12, height = 6)
+ggsave("/Users/chachaen/Desktop/DS4420/groupwork/Bayesian_category_distribution.png", p4, width = 12, height = 6)
 
-# 4.3 Model Prediction Visualization
-# Create test data for prediction
-test_data <- expand.grid(
-  price_level = levels(df$price_level),
-  rating_level = levels(df$rating_level),
-  loves_level = levels(df$loves_level)
-)
-
-# Get prediction probabilities
-pred_probs <- predict(fit, newdata = test_data, summary = FALSE)
-posterior_means <- colMeans(pred_probs)
-
-# Create prediction probability plot
-prob_matrix <- melt(posterior_means)
-colnames(prob_matrix) <- c("Category", "Probability")
-
-p5 <- ggplot(prob_matrix, aes(x = Category, y = Probability)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Predicted Category Probabilities", x = "Category", y = "Probability") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-ggsave("Bayesian_prediction_probabilities.png", p5, width = 12, height = 6)
-
-cat("✅ Visualizations generated successfully\n")
+cat("✅ All visualizations generated successfully\n")
