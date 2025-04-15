@@ -9,11 +9,30 @@ ui <- navbarPage(
   tabPanel("Home",
            fluidPage(
              titlePanel("Welcome to Sephora In-Store Recommender App"),
+             
+             # add photo
+             div(style = "text-align: center; padding: 20px 0;",
+                 tags$img(src = "sephora_store.jpg", 
+                          width = "100%", 
+                          style = "max-width: 800px; 
+                                   border-radius: 8px; 
+                                   box-shadow: 0 4px 8px rgba(0,0,0,0.1);")
+             ),
+             
              br(),
-             p("This application demonstrates a product recommendation engine designed for Sephora's in-store customers."),
-             p("Input your preferences and select a product to get personalized recommendations."),
+             div(style = "max-width: 800px; margin: 0 auto; padding: 20px;",
+                 h4("Why We Built This App", style = "color: #333; margin-bottom: 20px;"),
+                 p("Sometimes when we walk into Sephora, we don't have a clear goal. We are just browsing and see if anything suit us. But the moment sales person come over, they will ask 'what are you looking for? do you need a recommendation?' - and the suggestions are almost and always the latest or most popular products.", 
+                   style = "font-size: 16px; line-height: 1.6;"),
+                 p("That is not personalized. It gets worse when you think about how hard it is for sales associates to remember all the products in the store — the details, the differences — they just can't. So their recommendations are usually based on experience, not a full comparison. That means customers might miss out on great options that actually fit them better.",
+                   style = "font-size: 16px; line-height: 1.6;"),
+                 p("That is why we built this app - to fill that gap.",
+                   style = "font-size: 16px; line-height: 1.6; font-weight: bold;")
+             ),
+             
              br(),
-             h5("Created by Xining Xu, Yi Chen Wu for DS 4420")
+             h5("Created by Xining Xu, Yi Chen Wu for DS 4420", 
+                style = "color: #666; font-style: italic; text-align: right;")
            )
   ),
   tabPanel("Interactive Recommendation",
@@ -61,7 +80,8 @@ ui <- navbarPage(
                tableOutput("hybrid_recommendations")
              )
            )
-  ))
+  )
+)
 
 server <- function(input, output, session) {
   ## 1. read and pre-clean
@@ -286,7 +306,7 @@ server <- function(input, output, session) {
         bayesian_cf_recommendations = split(bayesian_cf, 1:nrow(bayesian_cf))
       )
       write(toJSON(output_json, pretty = TRUE, auto_unbox = TRUE), 
-            file = "bayes_output.json")1
+            file = "bayes_output.json")
     }
   })
 }
