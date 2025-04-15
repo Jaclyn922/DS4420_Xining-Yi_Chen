@@ -1,4 +1,8 @@
 # DS4420_Xining-Yi_Chen
+Here is the link to the Interactive Bar Plot for Item-Item CF if the HTML in Github is not working
+
+link: https://chart-studio.plotly.com/~Yichenwu88/1/
+
 step to see the website
 
 https://xining-xu.shinyapps.io/groupwork/
