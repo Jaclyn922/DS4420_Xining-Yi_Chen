@@ -3,6 +3,7 @@ Here is the link to the Interactive Bar Plot for Item-Item CF if the HTML in Git
 
 link: https://chart-studio.plotly.com/~Yichenwu88/1/
 
+Because our Baysian ask for user's input so we putted R file not html. But we do also created an RMD one
 step to see the website
 
 https://xining-xu.shinyapps.io/groupwork/
