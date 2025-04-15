@@ -1,4 +1,4 @@
-# DS4420_Xining-Yi_Chen
+# DS4420_Xining-Yi_Chen Sephora Recommendation System
 Here is the link to the Interactive Bar Plot for Item-Item CF if the HTML in Github is not working
 
 link: https://chart-studio.plotly.com/~Yichenwu88/1/
