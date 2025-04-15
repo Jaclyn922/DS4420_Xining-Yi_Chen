@@ -12,4 +12,4 @@ This app is deployed on shinyapps.io. If you see a short loading screen when acc
 If you still can't login, please contact me or login to my shiny app account to directly view the link. Thanks
 https://www.shinyapps.io/
 username: xu.xini@northeastern.edu
-password: Jaclynx0922*
+and you can send me a email asking for password. ( I tried to add password in here and I got the warning from github)
